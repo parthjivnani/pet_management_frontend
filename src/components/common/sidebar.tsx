@@ -71,7 +71,7 @@ export default function Sidebar({
               className={`${isCollapsed ? "visible w-auto" : "invisible w-0"}`}
             >
               <img
-                src="/category-small.png"
+                src="/pet-adoption.png"
                 alt="Deals"
                 className="mb-1 max-w-full w-10"
               />

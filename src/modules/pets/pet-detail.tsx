@@ -71,20 +71,32 @@ function PetDetailPage() {
               {pet.status}
             </Badge>
             <h1 className="text-2xl font-bold">{pet.name}</h1>
-            <p className="text-muted-foreground">
-              {pet.breed} • {pet.species} • {pet.age} years old
+            <p className="text-sm text-black">
+              Species - <b className="text-black">{pet.species}</b>
+            </p>
+            <p className="text-sm text-black">
+              Breed - <b className="text-black">{pet.breed}</b> | Age -{" "}
+              <b className="text-black">{pet.age} yrs</b>
             </p>
             {pet.description && (
-              <p className="mt-4 text-sm">{pet.description}</p>
+              <p className="mt-4 text-black">
+                {" "}
+                <b className="text-black">Pet Description - </b>
+                {pet.description}
+              </p>
             )}
             {isAvailable && isLoggedIn && (
-              <div className="mt-6 space-y-2">
+              <div className="mt-6">
                 <textarea
-                  className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 pt-2 text-sm"
                   placeholder="Optional message for your application..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  maxLength={300}
                 />
+                <p className="text-right text-xs text-muted-foreground mb-2">
+                  {message.length}/300
+                </p>
                 <Button
                   className="w-full"
                   onClick={handleApply}

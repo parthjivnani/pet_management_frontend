@@ -127,7 +127,7 @@ function PetListPage() {
                       <img
                         src={API_BASE + pet.imageUrl}
                         alt={pet.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -143,8 +143,11 @@ function PetListPage() {
                   </div>
                   <CardContent className="p-3">
                     <h3 className="font-semibold">{pet.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {pet.breed} • {pet.species} • {pet.age} yrs
+                    <p className="text-sm text-black">
+                      Species - <b className="text-black">{pet.species}</b>
+                    </p>
+                    <p className="text-sm text-black">
+                      Breed - <b className="text-black">{pet.breed}</b> | Age - <b className="text-black">{pet.age} yrs</b>
                     </p>
                   </CardContent>
                 </Link>
