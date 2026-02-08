@@ -1,5 +1,5 @@
 import { SideLink } from "@/models/sidelinks";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import {
   Network,
   PawPrint,
@@ -11,7 +11,7 @@ import { getRole } from "@/lib/utils";
 
 export default function useSidelinks() {
   const role = getRole();
-  const isAdmin = role === "admin";
+  const isAdmin = role?.toLowerCase() === "admin";
 
   const sidelinks = useMemo<SideLink[]>(() => {
     const links: SideLink[] = [
@@ -35,18 +35,20 @@ export default function useSidelinks() {
       },
     ];
     if (isAdmin) {
-      links.push({
-        title: "Manage Pets",
-        href: "/pets/manage",
-        label: "",
-        icon: <Settings size={20} />,
-      });
-      links.push({
-        title: "Adoption Requests",
-        href: "/admin/applications",
-        label: "",
-        icon: <ClipboardList size={20} />,
-      });
+      links.push(
+        {
+          title: "Manage Pets",
+          href: "/pet/manage",
+          label: "",
+          icon: <Settings size={20} />,
+        },
+        {
+          title: "Adoption Requests",
+          href: "/admin/applications",
+          label: "",
+          icon: <ClipboardList size={20} />,
+        },
+      );
     }
     return links;
   }, [isAdmin]);

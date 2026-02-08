@@ -9,13 +9,12 @@ import AdminApplicationsPage from "./modules/admin-applications";
 
 function PrivateRoutes() {
   return (
-    <>
       <AuthenticatedTemplate>
         <Routes>
           <Route element={<AdminLayout />}>
             <Route index element={<HomePage />} />
             <Route path="/categories/*" element={<CategoryRoutes />} />
-            <Route path="/pets/manage" element={<ManagePetsPage />} />
+            <Route path="/pet/manage" element={<ManagePetsPage />} />
             <Route path="/my-applications" element={<MyApplicationsPage />} />
             <Route
               path="/admin/applications"
@@ -24,7 +23,6 @@ function PrivateRoutes() {
           </Route>
         </Routes>
       </AuthenticatedTemplate>
-    </>
   );
 }
 

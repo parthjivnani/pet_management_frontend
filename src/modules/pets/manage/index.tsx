@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate } from "react-router";
 import { useGetPetsQuery, useDeletePetMutation } from "@/services/pet";
 import { Button } from "@/components/custom/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,8 +12,12 @@ import DeleteModal from "@/components/common/delete-modal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import showToast from "@/components/common/toast";
 import Loader from "@/components/common/loader";
+import { getRole } from "@/lib/utils";
 
 function ManagePetsPage() {
+  const role = getRole();
+  const isAdmin = role?.toLowerCase() === "admin";
+
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState<string | null>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -54,20 +59,26 @@ function ManagePetsPage() {
       });
   };
 
-  const columns = useColumns(handleOpen, handleOpenDeleteModal);
+  const columns = useColumns(handleOpen, handleOpenDeleteModal, isAdmin);
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
       <div className="flex justify-between px-4 py-2 items-center h-[52px]">
         <h1 className="font-semibold text-lg">Manage Pets</h1>
-        <Button
-          className="ml-2 flex items-center"
-          variant="default"
-          onClick={() => handleOpen(null)}
-        >
-          <Plus size={15} className="mr-1" />
-          Add Pet
-        </Button>
+        <div className="flex items-center">
+          <Button
+            className="ml-2 flex items-center"
+            variant="default"
+            onClick={() => handleOpen(null)}
+          >
+            <Plus size={15} className="mr-1" />
+            Add Pet
+          </Button>
+        </div>
       </div>
       <Card>
         <CardContent className="p-4">
