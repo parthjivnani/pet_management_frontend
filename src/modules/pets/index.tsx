@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGetPetsQuery } from "@/services/pet";
+import { useGetSpeciesQuery } from "@/services/species";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,24 +18,33 @@ import type { Pet } from "@/models/pet";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace("/api", "") || "";
+const ALL_SPECIES_VALUE = "__all__";
 
 function PetListPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [species, setSpecies] = useState<string>("");
-  const [breed, setBreed] = useState<string>("");
   const [ageMin, setAgeMin] = useState<string>("");
   const [ageMax, setAgeMax] = useState<string>("");
   const limit = 9;
+
+  const { data: speciesData } = useGetSpeciesQuery(
+    { limit: 100 },
+    {
+      selectFromResult: ({ data }) => ({
+        data: data?.result?.list ?? [],
+      }),
+    },
+  );
+  const speciesList = speciesData ?? [];
 
   const { data, isLoading } = useGetPetsQuery({
     page,
     limit,
     search: search || undefined,
     species: species || undefined,
-    breed: breed || undefined,
-    ageMin: ageMin ? parseInt(ageMin, 10) : undefined,
-    ageMax: ageMax ? parseInt(ageMax, 10) : undefined,
+    ageMin: ageMin ? Number.parseInt(ageMin, 10) : undefined,
+    ageMax: ageMax ? Number.parseInt(ageMax, 10) : undefined,
     status: "Available",
   });
 
@@ -68,22 +78,26 @@ function PetListPage() {
             </div>
             <div>
               <label className="text-sm text-muted-foreground">Species</label>
-              <Input
-                placeholder="e.g. Dog"
-                value={species}
-                onChange={(e) => setSpecies(e.target.value)}
-                className="mt-1 w-[120px]"
-              />
+              <Select
+                value={species || ALL_SPECIES_VALUE}
+                onValueChange={(v) =>
+                  setSpecies(v === ALL_SPECIES_VALUE ? "" : v)
+                }
+              >
+                <SelectTrigger className="mt-1 w-[140px]">
+                  <SelectValue placeholder="All species" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_SPECIES_VALUE}>All species</SelectItem>
+                  {speciesList.map((s) => (
+                    <SelectItem key={s._id} value={s.name}>
+                      {s.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div>
-              <label className="text-sm text-muted-foreground">Breed</label>
-              <Input
-                placeholder="e.g. Labrador"
-                value={breed}
-                onChange={(e) => setBreed(e.target.value)}
-                className="mt-1 w-[120px]"
-              />
-            </div>
+          
             <div>
               <label className="text-sm text-muted-foreground">Age min</label>
               <Input
@@ -147,7 +161,8 @@ function PetListPage() {
                       Species - <b className="text-black">{pet.species}</b>
                     </p>
                     <p className="text-sm text-black">
-                      Breed - <b className="text-black">{pet.breed}</b> | Age - <b className="text-black">{pet.age} yrs</b>
+                      Breed - <b className="text-black">{pet.breed}</b> | Age -{" "}
+                      <b className="text-black">{pet.age} yrs</b>
                     </p>
                   </CardContent>
                 </Link>

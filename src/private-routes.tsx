@@ -34,5 +34,5 @@ export const AuthenticatedTemplate = ({
   children: React.ReactNode;
 }) => {
   const Authenticated = getToken() !== null;
-  return Authenticated ? children : <Navigate to="/auth/sign-in" replace />;
+  return Authenticated ? children : <Navigate to="/pets" replace />;
 };
