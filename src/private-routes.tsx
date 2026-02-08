@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from "react-router";
-import CategoryRoutes from "./modules/categories/routes";
 import AdminLayout from "./layouts/admin-panel";
 import { getToken } from "./lib/utils";
 import HomePage from "./modules/home";
@@ -9,22 +8,19 @@ import AdminApplicationsPage from "./modules/admin-applications";
 
 function PrivateRoutes() {
   return (
-    <>
-      <AuthenticatedTemplate>
-        <Routes>
-          <Route element={<AdminLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/categories/*" element={<CategoryRoutes />} />
-            <Route path="/pets/manage" element={<ManagePetsPage />} />
-            <Route path="/my-applications" element={<MyApplicationsPage />} />
-            <Route
-              path="/admin/applications"
-              element={<AdminApplicationsPage />}
-            />
-          </Route>
-        </Routes>
-      </AuthenticatedTemplate>
-    </>
+    <AuthenticatedTemplate>
+      <Routes>
+        <Route element={<AdminLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/pet/manage" element={<ManagePetsPage />} />
+          <Route path="/my-applications" element={<MyApplicationsPage />} />
+          <Route
+            path="/admin/applications"
+            element={<AdminApplicationsPage />}
+          />
+        </Route>
+      </Routes>
+    </AuthenticatedTemplate>
   );
 }
 

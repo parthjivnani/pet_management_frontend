@@ -19,7 +19,7 @@ function PetDetailPage() {
   const isLoggedIn = !!getToken();
 
   const pet = data?.result;
-  const isAvailable = pet?.status === "available";
+  const isAvailable = pet?.status === "Available";
 
   const handleApply = () => {
     if (!id || !isLoggedIn) return;

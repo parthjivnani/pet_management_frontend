@@ -1,4 +1,4 @@
-export type AdoptionStatus = "pending" | "approved" | "rejected";
+export type AdoptionStatus = "Pending" | "Approved" | "Rejected";
 
 export interface Adoption {
   _id: string;

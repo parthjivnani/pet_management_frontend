@@ -10,6 +10,6 @@ export const baseApi = createApi({
       header.append("Authorization", `Bearer ${getToken()}`);
     },
   }),
-  tagTypes: ["CATEGORY", "PET", "ADOPTION"],
+  tagTypes: ["PET", "ADOPTION"],
   endpoints: () => ({}),
 });

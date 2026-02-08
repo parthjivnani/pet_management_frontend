@@ -63,9 +63,9 @@ function AdminApplicationsPage() {
           onChange={(e) => setStatus(e.target.value)}
         >
           <option value="">All</option>
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
         </select>
       </div>
       {list.length === 0 ? (
@@ -111,9 +111,9 @@ function AdminApplicationsPage() {
                   </div>
                   <Badge
                     variant={
-                      app.status === "approved"
+                      app.status === "Approved"
                         ? "success"
-                        : app.status === "rejected"
+                        : app.status === "Rejected"
                           ? "destructive"
                           : "secondary"
                     }
@@ -121,7 +121,7 @@ function AdminApplicationsPage() {
                   >
                     {app.status}
                   </Badge>
-                  {app.status === "pending" && (
+                  {app.status === "Pending" && (
                     <div className="flex gap-2">
                       <Button size="sm" onClick={() => handleApprove(app._id)}>
                         Approve
