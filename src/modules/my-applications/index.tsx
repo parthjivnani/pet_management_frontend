@@ -60,9 +60,9 @@ function MyApplicationsPage() {
                 </div>
                 <Badge
                   variant={
-                    app.status === "approved"
+                    app.status === "Approved"
                       ? "success"
-                      : app.status === "rejected"
+                      : app.status === "Rejected"
                         ? "destructive"
                         : "secondary"
                   }

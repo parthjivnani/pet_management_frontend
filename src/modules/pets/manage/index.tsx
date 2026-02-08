@@ -95,8 +95,10 @@ function ManagePetsPage() {
         onOpenChange={setIsOpen}
         onClose={handleClose}
       >
-        <DrawerContent className="p-4">
-          <PetAddEditPage id={id} handleClose={handleClose} />
+        <DrawerContent className="flex h-full flex-col overflow-hidden p-0">
+          <div className="flex flex-1 flex-col overflow-y-auto p-4">
+            <PetAddEditPage id={id} handleClose={handleClose} />
+          </div>
         </DrawerContent>
       </Drawer>
       <Dialog open={openDeleteModal} onOpenChange={setOpenDeleteModal}>

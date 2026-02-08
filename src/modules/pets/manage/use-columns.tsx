@@ -83,7 +83,7 @@ export default function useColumns(
       cell: ({ row }) => (
         <Badge
           variant={
-            row.original.status === "available" ? "success" : "secondary"
+            row.original.status === "Available" ? "success" : "secondary"
           }
           className="rounded-sm"
         >

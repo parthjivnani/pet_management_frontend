@@ -35,7 +35,7 @@ function PetListPage() {
     breed: breed || undefined,
     ageMin: ageMin ? parseInt(ageMin, 10) : undefined,
     ageMax: ageMax ? parseInt(ageMax, 10) : undefined,
-    status: "available",
+    status: "Available",
   });
 
   const result = data?.result;

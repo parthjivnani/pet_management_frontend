@@ -1,4 +1,4 @@
-export type PetStatus = "available" | "adopted";
+export type PetStatus = "Available" | "Adopted";
 
 export interface Pet {
   _id: string;

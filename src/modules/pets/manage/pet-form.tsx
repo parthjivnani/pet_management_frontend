@@ -42,7 +42,7 @@ function PetForm({ id, handleClose }: PetFormProps) {
       breed: "",
       age: 0,
       description: "",
-      status: "available",
+      status: "Available",
     },
   });
 
@@ -54,7 +54,7 @@ function PetForm({ id, handleClose }: PetFormProps) {
         breed: pet.breed,
         age: pet.age,
         description: pet.description ?? "",
-        status: pet.status ?? "available",
+        status: pet.status ?? "Available",
       });
     }
   }, [id, pet, form]);
@@ -233,11 +233,11 @@ function PetForm({ id, handleClose }: PetFormProps) {
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm"
                   value={field.value}
                   onChange={(e) =>
-                    field.onChange(e.target.value as "available" | "adopted")
+                    field.onChange(e.target.value as "Available" | "Adopted")
                   }
                 >
-                  <option value="available">Available</option>
-                  <option value="adopted">Adopted</option>
+                  <option value="Available">Available</option>
+                  <option value="Adopted">Adopted</option>
                 </select>
               </FormControl>
               <FormMessage className="text-sm" />

@@ -6,7 +6,7 @@ export const petSchema = z.object({
   breed: z.string().min(1, "Breed is required").max(50),
   age: z.coerce.number().min(0, "Age must be 0 or more"),
   description: z.string().max(1000).optional(),
-  status: z.enum(["available", "adopted"]).optional(),
+  status: z.enum(["Available", "Adopted"]).optional(),
 });
 
 export type PetSchemaType = z.infer<typeof petSchema>;
