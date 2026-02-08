@@ -14,7 +14,7 @@ function AuthRoutes() {
       <Route path="/sign-in" element={<LoginPage />} />
       <Route path="/sign-up" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
+      <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
     </Routes>
   );
 }
