@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IconChevronsLeft, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Layout, LayoutHeader } from "./layout";
 import { Button } from "../custom/button";
 import Nav from "./nav";

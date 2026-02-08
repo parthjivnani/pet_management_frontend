@@ -4,12 +4,10 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useNavigate } from "react-router";
 import { useForgotPasswordMutation } from "@/services/auth";
 import showToast from "@/components/common/toast";
 import { Button } from "@/components/custom/button";
 import { cn } from "@/lib/utils";
-import { Contact } from "lucide-react";
 
 
 /**
@@ -18,7 +16,6 @@ import { Contact } from "lucide-react";
  * @returns Forgot password form component
  */
 function ForgotPasswordForm() {
-    const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof forgotPasswordSchema>>({
         resolver: zodResolver(forgotPasswordSchema),

@@ -6,6 +6,7 @@ import ManagePetsPage from "./modules/pets/manage";
 import SpeciesManagementPage from "./modules/species";
 import MyApplicationsPage from "./modules/my-applications";
 import AdminApplicationsPage from "./modules/admin-applications";
+import ProfilePage from "./modules/profile";
 
 function PrivateRoutes() {
   return (
@@ -20,6 +21,7 @@ function PrivateRoutes() {
             path="/admin/applications"
             element={<AdminApplicationsPage />}
           />
+          <Route path="/acl/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </AuthenticatedTemplate>

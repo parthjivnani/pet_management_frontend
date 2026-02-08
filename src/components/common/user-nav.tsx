@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-import { removeToken } from "@/lib/utils";
+import { getRole, getUserNames, removeToken } from "@/lib/utils";
 
 /**
  * @memberof module
@@ -22,7 +22,11 @@ import { removeToken } from "@/lib/utils";
 export function UserNav() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
+  const { firstName, lastName } = getUserNames();
+  const displayName =
+    firstName && lastName
+      ? `${firstName} ${lastName}`.trim()
+      : firstName || lastName || "User";
 
   /**
    * Function will handle logout logic
@@ -40,15 +44,19 @@ export function UserNav() {
           onClick={() => setOpen(!open)}
         >
           <Avatar className="h-8 w-8">
-            <AvatarFallback className="dark:bg-background">AU</AvatarFallback>
+            <AvatarFallback className="dark:bg-background">
+              {(firstName?.[0] ?? "") + (lastName?.[0] ?? "") || "U"}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Admin User</p>
-            <p className="text-xs leading-none text-muted-foreground">Admin</p>
+            <p className="text-sm font-medium leading-none">{displayName}</p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {getRole()?.toUpperCase()}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
