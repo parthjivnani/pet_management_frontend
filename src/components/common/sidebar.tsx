@@ -82,7 +82,7 @@ export default function Sidebar({
               }`}
             >
               <Link to={"/"}>
-                <img src="/category.png" alt="Deals" className="mb-1 h-[29px]" />
+                <img src="/Dashboar-pet-image.jfif" width={200} height={200} alt="Pet Adoption Management" className="mb-1 h-[29px]" />
               </Link>
             </div>
           </div>

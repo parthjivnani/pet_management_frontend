@@ -27,7 +27,7 @@ interface PetFormProps {
   handleClose: () => void;
 }
 
-function PetForm({ id, handleClose }: PetFormProps) {
+function PetForm({ id, handleClose }: Readonly<PetFormProps>) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const { data: petData } = useGetPetByIdQuery(id!, { skip: !id });
   const pet = petData?.result;
