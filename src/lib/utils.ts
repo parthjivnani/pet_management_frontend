@@ -16,6 +16,8 @@ export function setToken(token: string) {
 export function removeToken() {
   localStorage.removeItem("token");
   localStorage.removeItem("userRole");
+  localStorage.removeItem("userFirstName");
+  localStorage.removeItem("userLastName");
 }
 
 export function getRole(): string | null {
@@ -24,6 +26,21 @@ export function getRole(): string | null {
 
 export function setRole(role: string) {
   localStorage.setItem("userRole", role);
+}
+
+export function getUserNames(): {
+  firstName: string | null;
+  lastName: string | null;
+} {
+  return {
+    firstName: localStorage.getItem("userFirstName"),
+    lastName: localStorage.getItem("userLastName"),
+  };
+}
+
+export function setUserNames(firstName: string, lastName: string) {
+  localStorage.setItem("userFirstName", firstName);
+  localStorage.setItem("userLastName", lastName);
 }
 
 /**

@@ -17,7 +17,7 @@ export default function PublicLayout() {
           </Button>
           {isLoggedIn ? (
             <Button asChild>
-              <Link to="/">Dashboard</Link>
+              <Link to="/my-applications">Dashboard</Link>
             </Button>
           ) : (
             <>

@@ -17,8 +17,16 @@ import {
   useGetPetByIdQuery,
   useUpdatePetMutation,
 } from "@/services/pet";
+import { useGetSpeciesQuery } from "@/services/species";
 import showToast from "@/components/common/toast";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace("/api", "") || "";
 
@@ -27,12 +35,21 @@ interface PetFormProps {
   handleClose: () => void;
 }
 
-function PetForm({ id, handleClose }: PetFormProps) {
+function PetForm({ id, handleClose }: Readonly<PetFormProps>) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const { data: petData } = useGetPetByIdQuery(id!, { skip: !id });
   const pet = petData?.result;
   const [createPet] = useCreatePetMutation();
   const [updatePet] = useUpdatePetMutation();
+  const { data: speciesData } = useGetSpeciesQuery(
+    { limit: 100 },
+    {
+      selectFromResult: ({ data }) => ({
+        data: data?.result?.list ?? [],
+      }),
+    },
+  );
+  const speciesList = speciesData ?? [];
 
   const form = useForm<PetSchemaType>({
     resolver: zodResolver(petSchema),
@@ -144,13 +161,26 @@ function PetForm({ id, handleClose }: PetFormProps) {
                 Species <span className="text-red-500">*</span>
               </FormLabel>
               <FormControl>
-                <Input
-                  className={cn("h-9", {
-                    "border-red-500": fieldState.invalid,
-                  })}
-                  placeholder="e.g. Dog, Cat"
-                  {...field}
-                />
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  disabled={speciesList.length === 0}
+                >
+                  <SelectTrigger
+                    className={cn("h-9 w-full", {
+                      "border-red-500": fieldState.invalid,
+                    })}
+                  >
+                    <SelectValue placeholder="Select species" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {speciesList.map((s) => (
+                      <SelectItem key={s._id} value={s.name}>
+                        {s.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage className="text-sm" />
             </FormItem>

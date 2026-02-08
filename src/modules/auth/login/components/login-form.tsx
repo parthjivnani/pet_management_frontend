@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn, getToken, setToken, setRole } from "@/lib/utils";
+import { cn, getToken, setToken, setRole, setUserNames } from "@/lib/utils";
 import { Button } from "@/components/custom/button";
 import { useLoginMutation } from "@/services/auth";
 import showToast from "@/components/common/toast";
@@ -49,8 +49,12 @@ function LoginForm() {
         if (res?.data?.success) {
           showToast(res?.data?.message, "success");
           setToken(res?.data?.result?.token);
-          if (res?.data?.result?.user?.role) {
-            setRole(res.data.result.user.role);
+          const user = res?.data?.result?.user;
+          if (user?.role) {
+            setRole(user.role);
+          }
+          if (user?.firstName != null && user?.lastName != null) {
+            setUserNames(user.firstName, user.lastName);
           }
         } else {
           showToast(res?.error?.data?.message, "error");
@@ -62,7 +66,6 @@ function LoginForm() {
         }, 2000);
       })
       .catch((err) => {
-        console.error(err?.data?.message);
         showToast(err?.data?.message, "error");
       });
   };

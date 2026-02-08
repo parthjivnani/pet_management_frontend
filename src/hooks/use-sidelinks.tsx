@@ -1,6 +1,12 @@
 import { SideLink } from "@/models/sidelinks";
 import { useMemo } from "react";
-import { PawPrint, FileText, Settings, ClipboardList } from "lucide-react";
+import {
+  PawPrint,
+  FileText,
+  Settings,
+  ClipboardList,
+  Layers,
+} from "lucide-react";
 import { getRole } from "@/lib/utils";
 
 export default function useSidelinks() {
@@ -29,6 +35,12 @@ export default function useSidelinks() {
           href: "/pet/manage",
           label: "",
           icon: <Settings size={20} />,
+        },
+        {
+          title: "Species Management",
+          href: "/species",
+          label: "",
+          icon: <Layers size={20} />,
         },
         {
           title: "Adoption Requests",

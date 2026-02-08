@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IconChevronsLeft, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 import { Layout, LayoutHeader } from "./layout";
 import { Button } from "../custom/button";
 import Nav from "./nav";
@@ -71,7 +71,7 @@ export default function Sidebar({
               className={`${isCollapsed ? "visible w-auto" : "invisible w-0"}`}
             >
               <img
-                src="/category-small.png"
+                src="/pet-adoption.png"
                 alt="Deals"
                 className="mb-1 max-w-full w-10"
               />
@@ -82,7 +82,7 @@ export default function Sidebar({
               }`}
             >
               <Link to={"/"}>
-                <img src="/category.png" alt="Deals" className="mb-1 h-[29px]" />
+                <img src="/Dashboar-pet-image.jfif" width={200} height={200} alt="Pet Adoption Management" className="mb-1 h-[29px]" />
               </Link>
             </div>
           </div>

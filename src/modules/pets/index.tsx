@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGetPetsQuery } from "@/services/pet";
+import { useGetSpeciesQuery } from "@/services/species";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,30 +12,54 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import Loader from "@/components/common/loader";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router";
 import type { Pet } from "@/models/pet";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace("/api", "") || "";
+const ALL_SPECIES_VALUE = "__all__";
+
+function PetCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <div className="aspect-[4/3] bg-muted relative">
+        <Skeleton className="absolute inset-0 rounded-none" />
+      </div>
+      <CardContent className="p-3 space-y-2">
+        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+      </CardContent>
+    </Card>
+  );
+}
 
 function PetListPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [species, setSpecies] = useState<string>("");
-  const [breed, setBreed] = useState<string>("");
   const [ageMin, setAgeMin] = useState<string>("");
   const [ageMax, setAgeMax] = useState<string>("");
   const limit = 9;
+
+  const { data: speciesData } = useGetSpeciesQuery(
+    { limit: 100 },
+    {
+      selectFromResult: ({ data }) => ({
+        data: data?.result?.list ?? [],
+      }),
+    },
+  );
+  const speciesList = speciesData ?? [];
 
   const { data, isLoading } = useGetPetsQuery({
     page,
     limit,
     search: search || undefined,
     species: species || undefined,
-    breed: breed || undefined,
-    ageMin: ageMin ? parseInt(ageMin, 10) : undefined,
-    ageMax: ageMax ? parseInt(ageMax, 10) : undefined,
+    ageMin: ageMin ? Number.parseInt(ageMin, 10) : undefined,
+    ageMax: ageMax ? Number.parseInt(ageMax, 10) : undefined,
     status: "Available",
   });
 
@@ -68,22 +93,26 @@ function PetListPage() {
             </div>
             <div>
               <label className="text-sm text-muted-foreground">Species</label>
-              <Input
-                placeholder="e.g. Dog"
-                value={species}
-                onChange={(e) => setSpecies(e.target.value)}
-                className="mt-1 w-[120px]"
-              />
+              <Select
+                value={species || ALL_SPECIES_VALUE}
+                onValueChange={(v) =>
+                  setSpecies(v === ALL_SPECIES_VALUE ? "" : v)
+                }
+              >
+                <SelectTrigger className="mt-1 w-[140px]">
+                  <SelectValue placeholder="All species" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_SPECIES_VALUE}>All species</SelectItem>
+                  {speciesList.map((s) => (
+                    <SelectItem key={s._id} value={s.name}>
+                      {s.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div>
-              <label className="text-sm text-muted-foreground">Breed</label>
-              <Input
-                placeholder="e.g. Labrador"
-                value={breed}
-                onChange={(e) => setBreed(e.target.value)}
-                className="mt-1 w-[120px]"
-              />
-            </div>
+
             <div>
               <label className="text-sm text-muted-foreground">Age min</label>
               <Input
@@ -115,7 +144,11 @@ function PetListPage() {
       </Card>
 
       {isLoading ? (
-        <Loader />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: limit }).map((_, i) => (
+            <PetCardSkeleton key={i} />
+          ))}
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -127,7 +160,7 @@ function PetListPage() {
                       <img
                         src={API_BASE + pet.imageUrl}
                         alt={pet.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -143,8 +176,12 @@ function PetListPage() {
                   </div>
                   <CardContent className="p-3">
                     <h3 className="font-semibold">{pet.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {pet.breed} • {pet.species} • {pet.age} yrs
+                    <p className="text-sm text-black">
+                      Species - <b className="text-black">{pet.species}</b>
+                    </p>
+                    <p className="text-sm text-black">
+                      Breed - <b className="text-black">{pet.breed}</b> | Age -{" "}
+                      <b className="text-black">{pet.age} yrs</b>
                     </p>
                   </CardContent>
                 </Link>
