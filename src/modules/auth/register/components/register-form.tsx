@@ -43,7 +43,7 @@ function RegisterForm() {
             navigate("/auth/sign-in");
             
         }).catch((err) => {
-            console.log(err);
+            showToast(err?.data?.message, "error");
         });
     };
 

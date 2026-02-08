@@ -62,7 +62,6 @@ function LoginForm() {
         }, 2000);
       })
       .catch((err) => {
-        console.error(err?.data?.message);
         showToast(err?.data?.message, "error");
       });
   };

@@ -45,7 +45,6 @@ function ForgotPasswordForm() {
                 window.location.href = `${res?.result?.forgotPasswordLink}`;
             }, 1000);
         }).catch((err) => {
-            console.log(err);
             showToast(err?.data?.message, "error");
         });
     };
