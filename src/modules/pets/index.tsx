@@ -12,13 +12,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import Loader from "@/components/common/loader";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router";
 import type { Pet } from "@/models/pet";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace("/api", "") || "";
 const ALL_SPECIES_VALUE = "__all__";
+
+function PetCardSkeleton() {
+  return (
+    <Card className="overflow-hidden">
+      <div className="aspect-[4/3] bg-muted relative">
+        <Skeleton className="absolute inset-0 rounded-none" />
+      </div>
+      <CardContent className="p-3 space-y-2">
+        <Skeleton className="h-5 w-24" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+      </CardContent>
+    </Card>
+  );
+}
 
 function PetListPage() {
   const [page, setPage] = useState(1);
@@ -97,7 +112,7 @@ function PetListPage() {
                 </SelectContent>
               </Select>
             </div>
-          
+
             <div>
               <label className="text-sm text-muted-foreground">Age min</label>
               <Input
@@ -129,7 +144,11 @@ function PetListPage() {
       </Card>
 
       {isLoading ? (
-        <Loader />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: limit }).map((_, i) => (
+            <PetCardSkeleton key={i} />
+          ))}
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
