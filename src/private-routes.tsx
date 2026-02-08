@@ -3,24 +3,38 @@ import CategoryRoutes from "./modules/categories/routes";
 import AdminLayout from "./layouts/admin-panel";
 import { getToken } from "./lib/utils";
 import HomePage from "./modules/home";
+import ManagePetsPage from "./modules/pets/manage";
+import MyApplicationsPage from "./modules/my-applications";
+import AdminApplicationsPage from "./modules/admin-applications";
+
 function PrivateRoutes() {
-    return (
-        <>
-            <AuthenticatedTemplate>
-                <Routes>
-                    <Route element={<AdminLayout />}>
-                        <Route index element={<HomePage />} />
-                        <Route path="/categories/*" element={<CategoryRoutes />} />
-                    </Route>
-                </Routes>
-            </AuthenticatedTemplate>
-        </>
-    );
+  return (
+    <>
+      <AuthenticatedTemplate>
+        <Routes>
+          <Route element={<AdminLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/categories/*" element={<CategoryRoutes />} />
+            <Route path="/pets/manage" element={<ManagePetsPage />} />
+            <Route path="/my-applications" element={<MyApplicationsPage />} />
+            <Route
+              path="/admin/applications"
+              element={<AdminApplicationsPage />}
+            />
+          </Route>
+        </Routes>
+      </AuthenticatedTemplate>
+    </>
+  );
 }
 
 export default PrivateRoutes;
 
-export const AuthenticatedTemplate = ({ children }: { children: React.ReactNode }) => {
-    const Authenticated = getToken() !== null;
-    return Authenticated ? children : <Navigate to="/auth/sign-in" replace />;
-}
+export const AuthenticatedTemplate = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const Authenticated = getToken() !== null;
+  return Authenticated ? children : <Navigate to="/auth/sign-in" replace />;
+};
