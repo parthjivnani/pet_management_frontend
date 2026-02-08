@@ -1,12 +1,6 @@
 import { SideLink } from "@/models/sidelinks";
 import { useMemo } from "react";
-import {
-  Network,
-  PawPrint,
-  FileText,
-  Settings,
-  ClipboardList,
-} from "lucide-react";
+import { PawPrint, FileText, Settings, ClipboardList } from "lucide-react";
 import { getRole } from "@/lib/utils";
 
 export default function useSidelinks() {
@@ -15,12 +9,6 @@ export default function useSidelinks() {
 
   const sidelinks = useMemo<SideLink[]>(() => {
     const links: SideLink[] = [
-      {
-        title: "Categories",
-        href: "/categories/list",
-        label: "",
-        icon: <Network size={20} />,
-      },
       {
         title: "Browse Pets",
         href: "/pets",
